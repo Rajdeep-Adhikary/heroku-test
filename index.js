@@ -7,7 +7,7 @@ const socketio = require('socket.io');
 const server = http.createServer(app);
 const io = socketio(server, {
     cors : {
-        origin : ['http://localhost']
+        origin : ['http://localhost', 'https://rajdeepadhikary.com']
     }
 });
 
