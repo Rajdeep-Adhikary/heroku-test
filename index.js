@@ -3,6 +3,15 @@ const express = require('express');
 const app = express();
 const http =  require('http');
 const socketio = require('socket.io');
+const cors = require('cors');
+
+const corsOption = {
+    origin: ['https://www.rajdeepadhikary.com'],
+};
+app.use(cors(corsOption));
+//if you want in every domain then
+app.use(cors())
+
 
 const server = http.createServer(app);
 const io = socketio(server, {
