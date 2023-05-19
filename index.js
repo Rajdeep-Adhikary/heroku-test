@@ -44,9 +44,10 @@ io.on('connection', (socket) => {
         socket.to(room).emit('user-joined', user);
     })
 
-    socket.on('leave-room', (room, callback) => {
+    socket.on('leave-room', (room, user, callback) => {
         socket.leave(room);
-        callback(`You have left from ${room} room`)
+        callback()
+        socket.to(room).emit('user-left', user);
     })
 })
 
