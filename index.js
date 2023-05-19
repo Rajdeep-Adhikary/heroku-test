@@ -6,7 +6,7 @@ const socketio = require('socket.io');
 const cors = require('cors');
 
 const corsOption = {
-    origin: ['https://www.rajdeepadhikary.com'],
+    origin: ['https://www.rajdeepadhikary.com', 'https://rajdeepadhikary.com'],
 };
 app.use(cors(corsOption));
 //if you want in every domain then
