@@ -38,9 +38,10 @@ io.on('connection', (socket) => {
             socket.to(room).emit('send-to-other', message);
     })
 
-    socket.on('join-room', (room, callback) => {
+    socket.on('join-room', (room, user, callback) => {
         socket.join(room);
-        callback(`You have joined to ${room} room`)
+        callback(`You have joined to ${room} room`);
+        socket.to(room).emit('user-joined', user);
     })
 
     socket.on('leave-room', (room, callback) => {
