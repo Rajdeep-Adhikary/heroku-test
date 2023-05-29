@@ -31,11 +31,11 @@ const port = process.env.PORT;
 io.on('connection', (socket) => {
     console.log('Socket Connected');
 
-    socket.on('send-message', (message, room) => {
+    socket.on('send-message', (user, message, room) => {
         if(room === '')
-            socket.broadcast.emit('send-to-other', message);
+            socket.broadcast.emit('send-to-other', user, message);
         else
-            socket.to(room).emit('send-to-other', message);
+            socket.to(room).emit('send-to-other', user, message);
     })
 
     socket.on('join-room', (room, user, callback) => {
