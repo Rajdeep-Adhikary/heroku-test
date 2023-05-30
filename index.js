@@ -41,7 +41,8 @@ io.on('connection', (socket) => {
     socket.on('join-room', (room, user, callback) => {
         socket.join(room);
         callback(`You have joined to ${room} room`);
-        socket.to(room).emit('user-joined', user);
+        var clients = io.sockets.clients(room);
+        socket.to(room).emit('user-joined', user, clients);
     })
 
     socket.on('leave-room', (room, user, callback) => {
