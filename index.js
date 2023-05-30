@@ -3,14 +3,16 @@ const express = require('express');
 const app = express();
 const http =  require('http');
 const socketio = require('socket.io');
-const cors = require('cors');
+const users = require('./src/controller/user');
 
-const corsOption = {
-    origin: ['https://www.rajdeepadhikary.com', 'https://rajdeepadhikary.com'],
-};
-app.use(cors(corsOption));
-//if you want in every domain then
-app.use(cors())
+// const cors = require('cors');
+
+// const corsOption = {
+//     origin: ['https://www.rajdeepadhikary.com', 'https://rajdeepadhikary.com'],
+// };
+// app.use(cors(corsOption));
+// //if you want in every domain then
+// app.use(cors())
 
 
 const server = http.createServer(app);
@@ -20,9 +22,9 @@ const io = socketio(server, {
     }
 });
 
-const publicDirectoryPath = path.join(__dirname, "./public");
+// const publicDirectoryPath = path.join(__dirname, "./public");
 
-app.use(express.static(publicDirectoryPath));
+// app.use(express.static(publicDirectoryPath));
 
 require('dotenv').config();
 const port = process.env.PORT;
@@ -39,10 +41,23 @@ io.on('connection', (socket) => {
     })
 
     socket.on('join-room', (room, user, callback) => {
+        if(room === '' || room === undefined){
+            callback({ msg : '', error : 'Room is required' });
+            return false;
+        }
+        if(user === '' || user === undefined){
+            callback({ msg : '', error : 'Username is required' });
+            return false;
+        }
+        if(users.exist(user, room)){
+            callback({ msg : '', error : 'Username already exist in this room' });
+            return false;
+        }
+        users.addUser(user, room);
         socket.join(room);
-        callback(`You have joined to ${room} room`);
-        var clients = io.sockets.clients(room);
-        socket.to(room).emit('user-joined', user, clients);
+        callback({ msg : `You have joined to ${room} room`, error : '' });
+        var all_users = users.getUserByRoom(room);
+        socket.to(room).emit('user-joined', user, all_users);
     })
 
     socket.on('leave-room', (room, user, callback) => {
