@@ -8,9 +8,8 @@ module.exports = {
         });
     },
     exist : (username, room) => {
-        let user = '';
-        user = users.find(user => user.name === username && user.room === room);
-        if(user != '')
+        let user = users.findIndex(user => user.name === username && user.room === room);
+        if(user >= 0)
             return true;
         else
             return false;
@@ -27,7 +26,7 @@ module.exports = {
     },
     removeUser : (username, room) => {
         let pos = users.findIndex(user => user.name === username && user.room === room);
-        if(pos > 0){
+        if(pos >= 0){
             users.splice(pos, 1);
         }
     }
