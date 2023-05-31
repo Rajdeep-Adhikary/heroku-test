@@ -54,10 +54,13 @@ io.on('connection', (socket) => {
         socket.leave(room);
         callback()
         socket.to(room).emit('user-left', user);
+        users.removeUser(socket.id);
+        io.in(room).emit('update-user-list', all_users);
     })
 
     socket.on('disconnect', function() {
         users.removeUser(socket.id);
+        io.in(room).emit('update-user-list', all_users);
     });
 })
 
