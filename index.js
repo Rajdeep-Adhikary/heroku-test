@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const http =  require('http');
 const socketio = require('socket.io');
-const users = require('./src/controller/user');
+const users = require('./src/controllers/user');
 
 
 
