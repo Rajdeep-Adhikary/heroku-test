@@ -59,8 +59,9 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', function() {
+        let user = users.getUserById(socket.id);
         users.removeUser(socket.id);
-        io.in(room).emit('update-user-list', all_users);
+        io.in(user.room).emit('update-user-list', all_users);
     });
 })
 

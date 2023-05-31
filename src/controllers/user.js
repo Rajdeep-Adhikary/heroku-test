@@ -30,5 +30,9 @@ module.exports = {
         if(pos >= 0){
             users.splice(pos, 1);
         }
+    },
+    getUserById : (id) => {
+        let pos = users.findIndex(user => user.id === id);
+        return users[pos];
     }
 }
