@@ -65,9 +65,9 @@ io.on('connection', (socket) => {
     socket.on('disconnect', function() {
         let user = users.getUserById(socket.id);
         if(user){
-            socket.to(user.room).emit('user-left', user);
-            var all_users = users.getUserByRoom(user.room);
+            socket.to(user.room).emit('user-left', user.name);
             users.removeUser(socket.id);
+            var all_users = users.getUserByRoom(user.room);
             io.in(user.room).emit('update-user-list', all_users);
         }
     });
