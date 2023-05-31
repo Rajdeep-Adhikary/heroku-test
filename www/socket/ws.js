@@ -10,7 +10,9 @@ let startSocket = (server) => {
       }
   });
     // let gameIO = io.of(`/${appConfig.socketNameSpace}`);
-    websocket.setNSP(io);
+  console.log('going to socket');
+  websocket.setNSP(io);
+
 }
 
 module.exports = {
