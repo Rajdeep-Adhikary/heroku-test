@@ -63,7 +63,13 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', function() {
-        users.removeUser(socket.id);
+        let user = users.getUserById(socket.id);
+        if(user){
+            socket.to(user.room).emit('user-left', user);
+            var all_users = users.getUserByRoom(user.room);
+            users.removeUser(socket.id);
+            io.in(user.room).emit('update-user-list', all_users);
+        }
     });
 })
 
