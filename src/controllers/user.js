@@ -1,8 +1,9 @@
 let users = [];
 
 module.exports = {
-    addUser : (username, room) => {
+    addUser : (id, username, room) => {
         users.push({
+            id   : id,
             name : username,
             room : room
         });
@@ -24,8 +25,8 @@ module.exports = {
         }
         return temp;
     },
-    removeUser : (username, room) => {
-        let pos = users.findIndex(user => user.name === username && user.room === room);
+    removeUser : (id) => {
+        let pos = users.findIndex(user => user.id === id);
         if(pos >= 0){
             users.splice(pos, 1);
         }

@@ -25,7 +25,7 @@ let setNSP = (io) => {
                 callback({ msg : '', error : 'Username already exist in this room' });
                 return false;
             }
-            users.addUser(user, room);
+            users.addUser(socket.id, user, room);
             socket.join(room);
             callback({ message : `You have joined to ${room} room`, error : '' });
             var all_users = users.getUserByRoom(room);
@@ -40,7 +40,7 @@ let setNSP = (io) => {
         })
     
         socket.on('disconnect', function() {
-            clients.splice(clients.indexOf(client), 1);
+            users.removeUser(socket.id);
         });
     })
 }
