@@ -55,6 +55,10 @@ io.on('connection', (socket) => {
         callback()
         socket.to(room).emit('user-left', user);
     })
+
+    socket.on('disconnect', function() {
+        clients.splice(clients.indexOf(client), 1);
+    });
 })
 
 app.get('/', (req, res) => {
