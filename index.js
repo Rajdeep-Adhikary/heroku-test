@@ -27,6 +27,8 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('send-to-other', user, message); 
         else
             socket.to(room).emit('send-to-other', user, message);
+        
+        io.in(user.room).emit('update-user-list', all_users);
     })
 
     socket.on('join-room', (room, user, callback) => {
@@ -59,9 +61,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', function() {
-        let user = users.getUserById(socket.id);
         users.removeUser(socket.id);
-        io.in(user.room).emit('update-user-list', all_users);
     });
 })
 
