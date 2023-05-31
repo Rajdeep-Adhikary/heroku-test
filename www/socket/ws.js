@@ -9,9 +9,9 @@ let startSocket = (server) => {
           origin : ['http://localhost', 'https://www.rajdeepadhikary.com', 'https://rajdeepadhikary.com']
       }
   });
-    // let gameIO = io.of(`/${appConfig.socketNameSpace}`);
+    let gameIO = io.of(`/`);
   console.log('going to socket');
-  websocket.setNSP(io);
+  websocket.setNSP(gameIO);
 
 }
 

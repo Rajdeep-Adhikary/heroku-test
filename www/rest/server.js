@@ -1,13 +1,14 @@
 const http = require('http');
 const ws = require('../socket/ws');
+require('dotenv').config();
 
 const startServer = (app)=>{
        const server = http.createServer(app);
 
-        server.listen(process.env.REST_PORT);
+        server.listen(process.env.PORT);
 
         server.on('listening',()=>{
-            console.log(`server listening on port : ${server.address().port}`);
+            console.log(`server listening on port : ${process.env.PORT}`);
             ws.startSocket(server);
         });
 
