@@ -28,7 +28,8 @@ io.on('connection', (socket) => {
         else
             socket.to(room).emit('send-to-other', user, message);
         
-        io.in(user.room).emit('update-user-list', all_users);
+        var all_users = users.getUserByRoom(room);
+        io.in(room).emit('update-user-list', all_users);
     })
 
     socket.on('join-room', (room, user, callback) => {
@@ -56,6 +57,7 @@ io.on('connection', (socket) => {
         socket.leave(room);
         callback()
         socket.to(room).emit('user-left', user);
+        var all_users = users.getUserByRoom(room);
         users.removeUser(socket.id);
         io.in(room).emit('update-user-list', all_users);
     })
