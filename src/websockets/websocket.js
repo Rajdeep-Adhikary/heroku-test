@@ -10,6 +10,9 @@ let setNSP = (io) => {
                 socket.broadcast.emit('send-to-other', user, message); 
             else
                 socket.to(room).emit('send-to-other', user, message);
+            
+            var all_users = users.getUserByRoom(room);
+            io.in(room).emit('update-user-list', all_users);
         })
     
         socket.on('join-room', (room, user, callback) => {
@@ -37,10 +40,19 @@ let setNSP = (io) => {
             socket.leave(room);
             callback()
             socket.to(room).emit('user-left', user);
+            var all_users = users.getUserByRoom(room);
+            users.removeUser(socket.id);
+            io.in(room).emit('update-user-list', all_users);
         })
     
         socket.on('disconnect', function() {
-            users.removeUser(socket.id);
+            let user = users.getUserById(socket.id);
+            if(user){
+                socket.to(user.room).emit('user-left', user.name);
+                users.removeUser(socket.id);
+                var all_users = users.getUserByRoom(user.room);
+                io.in(user.room).emit('update-user-list', all_users);
+            }
         });
     })
 }
