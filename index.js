@@ -1,18 +1,9 @@
-const path = require("path");
 const express = require('express');
 const app = express();
 const http =  require('http');
 const socketio = require('socket.io');
 const users = require('./src/controller/user');
 
-// const cors = require('cors');
-
-// const corsOption = {
-//     origin: ['https://www.rajdeepadhikary.com', 'https://rajdeepadhikary.com'],
-// };
-// app.use(cors(corsOption));
-// //if you want in every domain then
-// app.use(cors())
 
 
 const server = http.createServer(app);
@@ -22,9 +13,6 @@ const io = socketio(server, {
     }
 });
 
-// const publicDirectoryPath = path.join(__dirname, "./public");
-
-// app.use(express.static(publicDirectoryPath));
 
 require('dotenv').config();
 const port = process.env.PORT;
@@ -32,6 +20,7 @@ const port = process.env.PORT;
 
 io.on('connection', (socket) => {
     console.log('Socket Connected');
+
 
     socket.on('send-message', (user, message, room) => {
         if(room === '')
@@ -57,7 +46,8 @@ io.on('connection', (socket) => {
         socket.join(room);
         callback({ message : `You have joined to ${room} room`, error : '' });
         var all_users = users.getUserByRoom(room);
-        socket.to(room).emit('user-joined', user, all_users);
+        socket.to(room).emit('user-joined', user);
+        io.in(room).emit('update-user-list', all_users);
     })
 
     socket.on('leave-room', (room, user, callback) => {
