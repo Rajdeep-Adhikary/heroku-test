@@ -19,7 +19,7 @@ module.exports = {
         if(users.length > 0){
             users.forEach(user => {
                 if(user.room === room)
-                    temp.push(user);
+                    temp.push(user.name);
             });
         }
         return temp;

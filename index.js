@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
         }
         users.addUser(user, room);
         socket.join(room);
-        callback({ msg : `You have joined to ${room} room`, error : '' });
+        callback({ message : `You have joined to ${room} room`, error : '' });
         var all_users = users.getUserByRoom(room);
         socket.to(room).emit('user-joined', user, all_users);
     })
