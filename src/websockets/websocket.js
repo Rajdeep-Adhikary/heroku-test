@@ -1,3 +1,5 @@
+const users = require('../controllers/user');
+
 let setNSP = (io) => {
     io.on('connection', (socket) => {
         console.log('Socket Connected');
