@@ -54,6 +54,10 @@ let setNSP = (io) => {
                 io.in(user.room).emit('update-user-list', all_users);
             }
         });
+
+        socket.on('user-typing', (user, room) => {
+            socket.to(room).emit('user-typing-show', user);
+        })
     })
 }
 
